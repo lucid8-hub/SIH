@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KisanConnect – Smart Agricultural Procurement &amp; Transportation Assistant</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- SECTION 1: WELCOME / ONBOARDING -->
+<!-- ============================================= -->
+<section id="welcome" class="screen welcome-screen">
+  <div class="welcome-inner">
+    <div class="logo-badge">🌾</div>
+    <h1 class="app-title">KisanConnect</h1>
+    <p class="tagline">Know when to go, before you go.</p>
+
+    <div class="benefit-list">
+      <div class="benefit-item">
+        <span class="benefit-icon">📅</span>
+        <div>
+          <p class="benefit-title">Your schedule, clearly shown</p>
+          <p class="benefit-text">See your procurement slot, gate and token in one place.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">🧭</span>
+        <div>
+          <p class="benefit-title">Simple go / wait guidance</p>
+          <p class="benefit-text">A demo estimate of when to leave, based on queue and travel time.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">🚚</span>
+        <div>
+          <p class="benefit-title">Track your crop's journey</p>
+          <p class="benefit-text">Follow transport and procurement status step by step.</p>
+        </div>
+      </div>
+    </div>
+
+    <a href="#login" class="btn btn-primary btn-large">Get Started</a>
+    <p class="disclaimer-inline">This is a prototype. It does not replace official government procurement systems.</p>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 2: LOGIN / REGISTRATION -->
+<!-- ============================================= -->
+<section id="login" class="screen">
+  <div class="card form-card">
+    <h2 class="section-title">Log in to KisanConnect</h2>
+    <p class="section-subtitle">Enter your details to continue</p>
+
+    <form class="stack-form" onsubmit="return false;">
+      <label class="field-label" for="mobile-number">Mobile number</label>
+      <input class="field-input" type="tel" id="mobile-number" placeholder="98765 43210" maxlength="10" />
+
+      <fieldset class="role-select">
+        <legend class="field-label">I am a</legend>
+        <label class="role-option">
+          <input type="radio" name="role" checked />
+          <span>🧑‍🌾 Farmer</span>
+        </label>
+        <label class="role-option">
+          <input type="radio" name="role" />
+          <span>🧑‍💼 Officer</span>
+        </label>
+      </fieldset>
+
+      <a href="#dashboard" class="btn btn-primary btn-large">Continue</a>
+    </form>
+
+    <hr class="divider" />
+
+    <h3 class="section-title small">Create your profile</h3>
+    <div class="stack-form">
+      <label class="field-label" for="farmer-name">Full name</label>
+      <input class="field-input" type="text" id="farmer-name" placeholder="shortyvijay" />
+
+      <label class="field-label" for="village-name">Village / town</label>
+      <input class="field-input" type="text" id="village-name" placeholder="Shahpur" />
+
+      <label class="field-label" for="primary-crop">Primary crop</label>
+      <input class="field-input" type="text" id="primary-crop" placeholder="Wheat" />
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 3: FARMER HOME DASHBOARD -->
+<!-- ============================================= -->
+<section id="dashboard" class="screen">
+  <div class="greeting-row">
+    <div>
+      <p class="greeting-text">Good morning,</p>
+      <h2 class="greeting-name"vijay>🙏</h2>
+    </div>
+    <span class="sync-pill">🔄 Last synced 9:42 AM · Available offline</span>
+  </div>
+
+  <div class="card summary-card">
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="summary-label">Centre</span>
+        <span class="summary-value">Shahpur Procurement Centre</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Gate</span>
+        <span class="summary-value">Gate 2</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Token</span>
+        <span class="summary-value token-value">KC-8492</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Crop</span>
+        <span class="summary-value">🌾 Wheat</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Quantity</span>
+        <span class="summary-value">55 quintals</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Schedule</span>
+        <span class="summary-value">Today, 10:00 AM–12:00 PM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-stats-row">
+    <div class="card stat-card">
+      <span class="stat-label">Recommended arrival</span>
+      <span class="stat-value">10:05 AM</span>
+    </div>
+    <div class="card stat-card">
+      <span class="stat-label">Crowd level</span>
+      <span class="status-badge badge-moderate">Moderate</span>
+    </div>
+    <div class="card stat-card">
+      <span class="stat-label">Estimated wait</span>
+      <span class="stat-value">45 min</span>
+    </div>
+  </div>
+
+  <div class="card price-strip">
+    <span>MSP for Wheat</span>
+    <strong>₹2,275 / quintal</strong>
+    <span class="demo-label">DEMO SAMPLE PRICE — NOT LIVE GOVERNMENT PRICE</span>
+  </div>
+
+  <div class="status-row">
+    <div class="card status-mini-card">
+      <span class="status-mini-title">🚚 Transport status</span>
+      <span class="status-badge badge-progress">Vehicle assigned</span>
+    </div>
+    <div class="card status-mini-card">
+      <span class="status-mini-title">🧾 Procurement status</span>
+      <span class="status-badge badge-progress">Token scheduled</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 4: "SHOULD I GO NOW?" HIGHLIGHT CARD -->
+<!-- ============================================= -->
+<section id="go-now" class="screen">
+  <h2 class="section-title">Should I Go Now?</h2>
+  <div class="card go-now-card">
+    <span class="demo-label demo-label-light">DEMO RECOMMENDATION — ESTIMATE ONLY</span>
+    <p class="go-now-main">Leave at 9:15 AM</p>
+
+    <div class="go-now-grid">
+      <div class="go-now-item">
+        <span class="go-now-label">Expected arrival</span>
+        <span class="go-now-value">9:40 AM</span>
+      </div>
+      <div class="go-now-item">
+        <span class="go-now-label">Expected processing</span>
+        <span class="go-now-value">10:20 AM</span>
+      </div>
+      <div class="go-now-item">
+        <span class="go-now-label">Confidence</span>
+        <span class="status-badge badge-medium">Medium</span>
+      </div>
+    </div>
+
+    <p class="go-now-explain">
+      Based on 22 farmers ahead of your token and a 25‑minute demo travel time from your village,
+      leaving at 9:15 AM should get you to the centre close to your slot without a long wait.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 5: PROCUREMENT SCHEDULE & DIGITAL TOKEN -->
+<!-- ============================================= -->
+<section id="schedule" class="screen">
+  <h2 class="section-title">Procurement Schedule &amp; Token</h2>
+  <div class="card token-card">
+    <div class="token-details">
+      <div class="token-row"><span>Centre</span><strong>Shahpur Procurement Centre</strong></div>
+      <div class="token-row"><span>Date</span><strong>05 Sep 2026</strong></div>
+      <div class="token-row"><span>Time slot</span><strong>10:00 AM – 12:00 PM</strong></div>
+      <div class="token-row"><span>Gate</span><strong>Gate 2</strong></div>
+      <div class="token-row"><span>Token</span><strong class="token-value">KC-8492</strong></div>
+      <div class="token-row"><span>Crop</span><strong>Wheat</strong></div>
+      <div class="token-row"><span>Quantity</span><strong>55 quintals</strong></div>
+    </div>
+    <div class="qr-placeholder" role="img" aria-label="Placeholder QR code for digital token">
+      <div class="qr-box">
+        <span>▦</span>
+        <span>▦</span>
+        <span>▦</span>
+        <span>▦</span>
+      </div>
+      <span class="qr-caption">QR PLACEHOLDER — DEMO ONLY</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 6: LIVE QUEUE & CROWD TRACKER -->
+<!-- ============================================= -->
+<section id="queue" class="screen">
+  <h2 class="section-title">Live Queue &amp; Crowd Tracker</h2>
+  <span class="demo-label">DEMO DATA — SIMULATED QUEUE</span>
+
+  <div class="card queue-card">
+    <div class="queue-top-row">
+      <div class="queue-token-box">
+        <span class="queue-token-label">Currently serving</span>
+        <span class="queue-token-num">KC-8470</span>
+      </div>
+      <div class="queue-token-box queue-token-box-you">
+        <span class="queue-token-label">Your token</span>
+        <span class="queue-token-num">KC-8492</span>
+      </div>
+    </div>
+
+    <div class="queue-progress-wrap">
+      <div class="queue-progress-track">
+        <div class="queue-progress-fill" style="width: 62%;"></div>
+      </div>
+      <p class="queue-progress-caption">22 farmers ahead of you</p>
+    </div>
+
+    <div class="queue-meta-grid">
+      <div class="queue-meta-item">
+        <span class="queue-meta-label">Estimated wait</span>
+        <span class="queue-meta-value">45 minutes</span>
+      </div>
+      <div class="queue-meta-item">
+        <span class="queue-meta-label">Processing rate</span>
+        <span class="queue-meta-value">6 min / farmer</span>
+      </div>
+      <div class="queue-meta-item">
+        <span class="queue-meta-label">Gate status</span>
+        <span class="status-badge badge-open">Open</span>
+      </div>
+      <div class="queue-meta-item">
+        <span class="queue-meta-label">Crowd</span>
+        <span class="status-badge badge-moderate">Moderate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 7: CROP PRICE / MSP -->
+<!-- ============================================= -->
+<section id="prices" class="screen">
+  <h2 class="section-title">Crop Price &amp; MSP</h2>
+  <span class="demo-label">DEMO SAMPLE PRICES — NOT LIVE GOVERNMENT DATA</span>
+
+  <div class="table-scroll-wrap card">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>Crop</th>
+          <th>Demo MSP</th>
+          <th>Market price</th>
+          <th>Unit</th>
+          <th>Source</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🌾 Wheat</td>
+          <td>₹2,275</td>
+          <td>₹2,310</td>
+          <td>per quintal</td>
+          <td>Demo source</td>
+          <td>9:42 AM</td>
+        </tr>
+        <tr>
+          <td>🌾 Paddy</td>
+          <td>₹2,183</td>
+          <td>₹2,205</td>
+          <td>per quintal</td>
+          <td>Demo source</td>
+          <td>9:42 AM</td>
+        </tr>
+        <tr>
+          <td>🌽 Maize</td>
+          <td>₹2,090</td>
+          <td>₹2,140</td>
+          <td>per quintal</td>
+          <td>Demo source</td>
+          <td>9:42 AM</td>
+        </tr>
+        <tr>
+          <td>🌱 Cotton</td>
+          <td>₹7,121</td>
+          <td>₹7,280</td>
+          <td>per quintal</td>
+          <td>Demo source</td>
+          <td>9:42 AM</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card calc-card">
+    <h3 class="section-title small">Quantity calculator (visual only)</h3>
+    <div class="calc-row">
+      <label class="field-label" for="calc-qty">Quantity (quintals)</label>
+      <input class="field-input" type="number" id="calc-qty" placeholder="55" />
+    </div>
+    <div class="calc-row">
+      <span>Estimated value at demo MSP</span>
+      <strong>₹1,25,125</strong>
+    </div>
+    <p class="disclaimer-inline">Sample calculation only. Not connected to any live pricing engine.</p>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 8: PAID VEHICLE BOOKING -->
+<!-- ============================================= -->
+<section id="booking" class="screen">
+  <h2 class="section-title">Book Transport</h2>
+  <p class="section-subtitle">Paid service — not a free government service</p>
+
+  <div class="vehicle-list">
+    <div class="card vehicle-card">
+      <div class="vehicle-head">
+        <span class="vehicle-icon">🚜</span>
+        <div>
+          <p class="vehicle-name">Tractor + Trolley</p>
+          <span class="vehicle-rating">⭐ 4.6 · Verified driver</span>
+        </div>
+      </div>
+      <div class="vehicle-meta-grid">
+        <span>Capacity: 60 quintals</span>
+        <span>ETA: 20 min</span>
+        <span>Distance: 6.4 km</span>
+        <span>Fare: ₹850 (DEMO ESTIMATE)</span>
+      </div>
+      <span class="status-badge badge-open">Available</span>
+      <a href="#tracking" class="btn btn-secondary">Book Now</a>
+    </div>
+
+    <div class="card vehicle-card">
+      <div class="vehicle-head">
+        <span class="vehicle-icon">🚚</span>
+        <div>
+          <p class="vehicle-name">Mini Truck</p>
+          <span class="vehicle-rating">⭐ 4.8 · Verified driver</span>
+        </div>
+      </div>
+      <div class="vehicle-meta-grid">
+        <span>Capacity: 100 quintals</span>
+        <span>ETA: 28 min</span>
+        <span>Distance: 6.4 km</span>
+        <span>Fare: ₹1,450 (DEMO ESTIMATE)</span>
+      </div>
+      <span class="status-badge badge-moderate">2 left today</span>
+      <a href="#tracking" class="btn btn-secondary">Book Now</a>
+    </div>
+
+    <div class="card vehicle-card">
+      <div class="vehicle-head">
+        <span class="vehicle-icon">🚐</span>
+        <div>
+          <p class="vehicle-name">Light Commercial Vehicle</p>
+          <span class="vehicle-rating">⭐ 4.5 · Verified driver</span>
+        </div>
+      </div>
+      <div class="vehicle-meta-grid">
+        <span>Capacity: 40 quintals</span>
+        <span>ETA: 15 min</span>
+        <span>Distance: 6.4 km</span>
+        <span>Fare: ₹650 (DEMO ESTIMATE)</span>
+      </div>
+      <span class="status-badge badge-open">Available</span>
+      <a href="#tracking" class="btn btn-secondary">Book Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 9: VEHICLE TRACKING -->
+<!-- ============================================= -->
+<section id="tracking" class="screen">
+  <h2 class="section-title">Vehicle Tracking</h2>
+  <span class="demo-label">SIMULATED DEMO TRACKING</span>
+
+  <div class="card tracking-card">
+    <div class="tracking-meta-grid">
+      <div><span class="summary-label">Booking ID</span><span class="summary-value">KC-BK-3391</span></div>
+      <div><span class="summary-label">Vehicle number</span><span class="summary-value">PB 11 AB 4521</span></div>
+      <div><span class="summary-label">Driver</span><span class="summary-value">Suresh Singh · ⭐ 4.8</span></div>
+      <div><span class="summary-label">ETA</span><span class="summary-value">12 minutes</span></div>
+      <div><span class="summary-label">Distance remaining</span><span class="summary-value">3.1 km</span></div>
+    </div>
+
+    <div class="map-placeholder" role="img" aria-label="Static placeholder map showing route">
+      <span>🗺️ STATIC MAP PLACEHOLDER — DEMO ROUTE</span>
+    </div>
+
+    <div class="timeline-horizontal">
+      <div class="timeline-h-step is-done"><span class="timeline-dot"></span><span>Driver Assigned</span></div>
+      <div class="timeline-h-step is-done"><span class="timeline-dot"></span><span>Vehicle Coming</span></div>
+      <div class="timeline-h-step is-active"><span class="timeline-dot"></span><span>Arrived at Farm</span></div>
+      <div class="timeline-h-step"><span class="timeline-dot"></span><span>Crop Loaded</span></div>
+      <div class="timeline-h-step"><span class="timeline-dot"></span><span>En Route</span></div>
+      <div class="timeline-h-step"><span class="timeline-dot"></span><span>Arrived at Centre</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 10: PROCUREMENT LIFECYCLE -->
+<!-- ============================================= -->
+<section id="lifecycle" class="screen">
+  <h2 class="section-title">Procurement Lifecycle</h2>
+
+  <div class="card">
+    <div class="timeline-vertical">
+      <div class="timeline-v-step is-done">
+        <span class="timeline-dot"></span>
+        <div><p class="timeline-v-title">Token Scheduled</p><p class="timeline-v-time">9:00 AM</p></div>
+      </div>
+      <div class="timeline-v-step is-done">
+        <span class="timeline-dot"></span>
+        <div><p class="timeline-v-title">Mandi Gate Arrival</p><p class="timeline-v-time">9:55 AM</p></div>
+      </div>
+      <div class="timeline-v-step is-active">
+        <span class="timeline-dot"></span>
+        <div>
+          <p class="timeline-v-title">Digital Weighing</p>
+          <p class="timeline-v-time">In progress</p>
+          <p class="quality-note">DEMO QUALITY VALUES — Moisture: 11.8% · Foreign matter: 1.2% · Grade: A</p>
+        </div>
+      </div>
+      <div class="timeline-v-step">
+        <span class="timeline-dot"></span>
+        <div><p class="timeline-v-title">Quality Verification</p></div>
+      </div>
+      <div class="timeline-v-step">
+        <span class="timeline-dot"></span>
+        <div><p class="timeline-v-title">Procurement Voucher Issued</p></div>
+      </div>
+      <div class="timeline-v-step">
+        <span class="timeline-dot"></span>
+        <div><p class="timeline-v-title">Payment Processing</p></div>
+      </div>
+      <div class="timeline-v-step">
+        <span class="timeline-dot"></span>
+        <div><p class="timeline-v-title">Payment Completed</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 11: PAYMENT STATUS -->
+<!-- ============================================= -->
+<section id="payment" class="screen">
+  <h2 class="section-title">Payment Status</h2>
+  <span class="demo-label">DEMO DATA — SAMPLE PAYMENT ONLY</span>
+
+  <div class="card payment-card">
+    <div class="payment-amount-row">
+      <span class="summary-label">Sample amount</span>
+      <span class="payment-amount">₹1,25,125</span>
+      <span class="status-badge badge-progress">Processing</span>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-item"><span class="summary-label">Quantity</span><span class="summary-value">55 quintals</span></div>
+      <div class="summary-item"><span class="summary-label">Rate</span><span class="summary-value">₹2,275 / quintal</span></div>
+      <div class="summary-item"><span class="summary-label">Payment date</span><span class="summary-value">06 Sep 2026 (est.)</span></div>
+      <div class="summary-item"><span class="summary-label">DBT status</span><span class="summary-value">Pending transfer</span></div>
+      <div class="summary-item"><span class="summary-label">Bank account</span><span class="summary-value">XXXX XXXX 4821</span></div>
+      <div class="summary-item"><span class="summary-label">Transaction ID</span><span class="summary-value">DEMO-TXN-77291</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 12: SMART NOTIFICATIONS -->
+<!-- ============================================= -->
+<section id="notifications" class="screen">
+  <h2 class="section-title">Notifications</h2>
+
+  <div class="notification-list">
+    <div class="card notification-card notification-queue">
+      <span class="notification-icon">⏳</span>
+      <div>
+        <p class="notification-title">Queue update</p>
+        <p class="notification-text">Only 22 farmers ahead of you. Estimated wait: 45 minutes.</p>
+      </div>
+    </div>
+    <div class="card notification-card notification-vehicle">
+      <span class="notification-icon">🚚</span>
+      <div>
+        <p class="notification-title">Vehicle on the way</p>
+        <p class="notification-text">Your Mini Truck is 12 minutes from your farm.</p>
+      </div>
+    </div>
+    <div class="card notification-card notification-procurement">
+      <span class="notification-icon">🧾</span>
+      <div>
+        <p class="notification-title">Procurement update</p>
+        <p class="notification-text">Digital weighing has started for token KC-8492.</p>
+      </div>
+    </div>
+    <div class="card notification-card notification-payment">
+      <span class="notification-icon">💰</span>
+      <div>
+        <p class="notification-title">Payment update</p>
+        <p class="notification-text">Your payment of ₹1,25,125 is being processed (demo data).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 13: PROFILE & ACCESSIBILITY -->
+<!-- ============================================= -->
+<section id="profile" class="screen">
+  <h2 class="section-title">Profile &amp; Accessibility</h2>
+
+  <div class="card">
+    <div class="profile-head">
+      <div class="profile-avatar">🧑‍🌾</div>
+      <div>
+        <p class="profile-name">shortyvijay</p>
+        <p class="profile-sub">Shahpur · Wheat farmer</p>
+      </div>
+    </div>
+
+    <label class="field-label" for="language-select">Language</label>
+    <select class="field-input" id="language-select">
+      <option>English</option>
+      <option>हिंदी (Hindi)</option>
+      <option>ਪੰਜਾਬੀ (Punjabi)</option>
+    </select>
+
+    <div class="toggle-row">
+      <span>Large text</span>
+      <div class="toggle-placeholder"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <span>High contrast</span>
+      <div class="toggle-placeholder"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <span>Read aloud</span>
+      <button class="btn btn-secondary btn-small" type="button">🔊 Read this screen</button>
+    </div>
+
+    <div class="sync-card">
+      <span>📶 Low connectivity mode</span>
+      <span class="sync-pill">Last synced: 9:42 AM · Available offline</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 14: OFFICER DASHBOARD (DESKTOP-FRIENDLY) -->
+<!-- ============================================= -->
+<section id="officer-dashboard" class="screen officer-screen">
+  <h2 class="section-title">Officer Dashboard — Shahpur Centre</h2>
+
+  <div class="officer-stat-grid">
+    <div class="card officer-stat-card">
+      <span class="summary-label">Scheduled farmers</span>
+      <span class="officer-stat-value">186</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Arrived farmers</span>
+      <span class="officer-stat-value">94</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Processed farmers</span>
+      <span class="officer-stat-value">70</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Current queue</span>
+      <span class="officer-stat-value">22</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Capacity utilisation</span>
+      <span class="officer-stat-value">78%</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Vehicles arriving</span>
+      <span class="officer-stat-value">9</span>
+    </div>
+  </div>
+
+  <div class="card congestion-card">
+    <span class="summary-label">Congestion status</span>
+    <span class="status-badge badge-moderate">Moderate congestion at Gate 2</span>
+  </div>
+
+  <div class="table-scroll-wrap card">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Farmer</th>
+          <th>Crop</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Wait time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>KC-8470</td>
+          <td>Suresh Yadav</td>
+          <td>Wheat</td>
+          <td>48 q</td>
+          <td><span class="status-badge badge-progress">Serving</span></td>
+          <td>0 min</td>
+        </tr>
+        <tr>
+          <td>KC-8471</td>
+          <td>Meena Devi</td>
+          <td>Wheat</td>
+          <td>62 q</td>
+          <td><span class="status-badge badge-open">Waiting</span></td>
+          <td>6 min</td>
+        </tr>
+        <tr>
+          <td>KC-8492</td>
+          <td>shortyvijay</td>
+          <td>Wheat</td>
+          <td>55 q</td>
+          <td><span class="status-badge badge-open">Waiting</span></td>
+          <td>45 min</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 15: OFFICER CENTRE DETAIL -->
+<!-- ============================================= -->
+<section id="officer-centre" class="screen officer-screen">
+  <h2 class="section-title">Centre Detail — Gates &amp; Stations</h2>
+
+  <div class="officer-stat-grid">
+    <div class="card officer-stat-card">
+      <span class="summary-label">Gate 1</span>
+      <span class="status-badge badge-open">Open</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Gate 2</span>
+      <span class="status-badge badge-moderate">Busy</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Weighing station A</span>
+      <span class="status-badge badge-open">Active</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Weighing station B</span>
+      <span class="status-badge badge-open">Active</span>
+    </div>
+  </div>
+
+  <div class="card notification-card notification-queue">
+    <span class="notification-icon">⚠️</span>
+    <div>
+      <p class="notification-title">Centre alert</p>
+      <p class="notification-text">Gate 2 approaching high crowd threshold. Consider opening Gate 3 (demo alert).</p>
+    </div>
+  </div>
+
+  <div class="table-scroll-wrap card">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Driver</th>
+          <th>Farmer</th>
+          <th>ETA</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PB 11 AB 4521</td>
+          <td>Suresh Singh</td>
+          <td>shortyvijay</td>
+          <td>12 min</td>
+          <td><span class="status-badge badge-progress">En route</span></td>
+        </tr>
+        <tr>
+          <td>PB 10 CJ 9021</td>
+          <td>Harpreet Kaur</td>
+          <td>Meena Devi</td>
+          <td>4 min</td>
+          <td><span class="status-badge badge-progress">En route</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="map-placeholder" role="img" aria-label="Static placeholder map of the centre layout">
+    <span>🗺️ STATIC CENTRE MAP PLACEHOLDER — DEMO ONLY</span>
+  </div>
+</section>
+
+<!-- ============================================= -->
+<!-- MOBILE BOTTOM NAVIGATION (FARMER SCREENS) -->
+<!-- ============================================= -->
+<nav class="bottom-nav" aria-label="Farmer quick navigation">
+  <a href="#dashboard" class="bottom-nav-item">
+    <span>🏠</span><span>Home</span>
+  </a>
+  <a href="#go-now" class="bottom-nav-item">
+    <span>🧭</span><span>Go Now</span>
+  </a>
+  <a href="#queue" class="bottom-nav-item">
+    <span>⏳</span><span>Queue</span>
+  </a>
+  <a href="#booking" class="bottom-nav-item">
+    <span>🚚</span><span>Transport</span>
+  </a>
+  <a href="#profile" class="bottom-nav-item">
+    <span>👤</span><span>Profile</span>
+  </a>
+</nav>
+
+</body>
+</html>

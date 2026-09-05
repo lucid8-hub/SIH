@@ -1,0 +1,1094 @@
+/* =========================================================
+   KisanConnect — Stylesheet
+   Simple, commented CSS meant to be easy for freshers to read.
+   Colours are defined once as CSS variables at the top, then
+   reused everywhere else in the file.
+   ========================================================= */
+
+/* ---------- 1. COLOUR & DESIGN VARIABLES ---------- */
+:root {
+  /* core greens (agriculture theme) */
+  --color-green-dark: #205C2E;
+  --color-green: #2E7D32;
+  --color-green-light: #6FBF73;
+  --color-green-pale: #E4F3E2;
+
+  /* background & surface colours */
+  --color-bg: #FBF8F1;      /* light cream page background */
+  --color-surface: #FFFFFF; /* card background */
+  --color-border: #E3DCC9;
+
+  /* text colours */
+  --color-text: #26321F;
+  --color-text-muted: #5B6650;
+
+  /* status colours */
+  --color-warning: #B5651D;
+  --color-warning-bg: #FBEBD9;
+  --color-alert: #B23A3A;
+  --color-alert-bg: #FBE3E1;
+  --color-info-bg: #E9F1FB;
+  --color-info: #2A5C8A;
+
+  /* sizing */
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --shadow-card: 0 2px 8px rgba(38, 50, 31, 0.08);
+
+  /* spacing scale */
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 36px;
+}
+
+/* ---------- 2. RESET & BASE ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 0 88px 0; /* leave room for the bottom nav */
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  color: var(--color-green-dark);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-lg) 0;
+}
+
+/* ---------- 3. SCREEN / SECTION LAYOUT ---------- */
+/* Each numbered part of the brief lives inside one .screen section,
+   stacked vertically so the whole thing scrolls as one page. */
+.screen {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.screen:last-of-type {
+  border-bottom: none;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.section-title.small {
+  font-size: 18px;
+  margin-top: var(--space-lg);
+}
+
+.section-subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* ---------- 4. REUSABLE CARD ---------- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* ---------- 5. BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 17px;
+  font-weight: 600;
+  padding: 14px 24px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.btn-primary {
+  background: var(--color-green);
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background: var(--color-green-pale);
+  color: var(--color-green-dark);
+  border: 1px solid var(--color-green-light);
+}
+
+.btn-large {
+  padding: 16px 24px;
+  font-size: 18px;
+}
+
+.btn-small {
+  width: auto;
+  padding: 8px 16px;
+  font-size: 15px;
+  margin-top: 0;
+}
+
+/* ---------- 6. DEMO / STATUS LABELS ---------- */
+.demo-label {
+  display: inline-block;
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-sm);
+}
+
+.demo-label-light {
+  background: rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+}
+
+.disclaimer-inline {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin-top: var(--space-sm);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.badge-open {
+  background: var(--color-green-pale);
+  color: var(--color-green-dark);
+}
+
+.badge-moderate {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.badge-medium {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.badge-progress {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.badge-alert {
+  background: var(--color-alert-bg);
+  color: var(--color-alert);
+}
+
+/* =========================================================
+   SECTION 1: WELCOME / ONBOARDING
+   ========================================================= */
+.welcome-screen {
+  background: linear-gradient(180deg, var(--color-green-pale) 0%, var(--color-bg) 100%);
+  text-align: center;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: none;
+}
+
+.welcome-inner {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.logo-badge {
+  font-size: 48px;
+  margin-bottom: var(--space-sm);
+}
+
+.app-title {
+  font-size: 32px;
+  margin-bottom: var(--space-xs);
+}
+
+.tagline {
+  color: var(--color-text-muted);
+  font-size: 18px;
+  margin-bottom: var(--space-lg);
+}
+
+.benefit-list {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+}
+
+.benefit-icon {
+  font-size: 26px;
+}
+
+.benefit-title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.benefit-text {
+  color: var(--color-text-muted);
+  font-size: 15px;
+}
+
+/* =========================================================
+   SECTION 2: LOGIN / REGISTRATION
+   ========================================================= */
+.form-card {
+  margin-top: var(--space-md);
+}
+
+.stack-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: var(--space-sm);
+}
+
+.field-input {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.role-select {
+  border: none;
+  padding: 0;
+  margin: var(--space-sm) 0 0 0;
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.role-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.role-option:has(input:checked) {
+  border-color: var(--color-green);
+  background: var(--color-green-pale);
+  color: var(--color-green-dark);
+}
+
+/* =========================================================
+   SECTION 3: FARMER HOME DASHBOARD
+   ========================================================= */
+.greeting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.greeting-text {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.greeting-name {
+  font-size: 24px;
+}
+
+.sync-pill {
+  background: var(--color-green-pale);
+  color: var(--color-green-dark);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-label {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.summary-value {
+  font-weight: 700;
+}
+
+.token-value {
+  color: var(--color-green-dark);
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+
+.quick-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+.stat-card {
+  text-align: center;
+  padding: var(--space-sm);
+}
+
+.stat-label {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.price-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.price-strip strong {
+  font-size: 20px;
+  color: var(--color-green-dark);
+}
+
+.status-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.status-mini-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.status-mini-title {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* =========================================================
+   SECTION 4: SHOULD I GO NOW? CARD
+   ========================================================= */
+.go-now-card {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-dark) 100%);
+  color: #FFFFFF;
+  border: none;
+}
+
+.go-now-main {
+  font-size: 28px;
+  font-weight: 800;
+  margin: var(--space-xs) 0 var(--space-md) 0;
+}
+
+.go-now-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.go-now-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.go-now-label {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.go-now-value {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.go-now-explain {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: var(--space-sm) var(--space-md);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   SECTION 5: PROCUREMENT SCHEDULE & TOKEN
+   ========================================================= */
+.token-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.token-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.token-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--color-border);
+  padding-bottom: 6px;
+  font-size: 15px;
+}
+
+.token-row span {
+  color: var(--color-text-muted);
+}
+
+.qr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  border: 2px dashed var(--color-border);
+  border-radius: 12px;
+  padding: var(--space-md);
+}
+
+.qr-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--color-green-dark);
+}
+
+.qr-caption {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+/* =========================================================
+   SECTION 6: LIVE QUEUE & CROWD TRACKER
+   ========================================================= */
+.queue-top-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.queue-token-box {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.queue-token-box-you {
+  background: var(--color-green-pale);
+  border-color: var(--color-green-light);
+}
+
+.queue-token-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.queue-token-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-green-dark);
+}
+
+.queue-progress-wrap {
+  margin-bottom: var(--space-md);
+}
+
+.queue-progress-track {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  height: 12px;
+  overflow: hidden;
+}
+
+.queue-progress-fill {
+  background: var(--color-green);
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.queue-progress-caption {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+}
+
+.queue-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.queue-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.queue-meta-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.queue-meta-value {
+  font-weight: 700;
+}
+
+/* =========================================================
+   SECTION 7: CROP PRICE / MSP TABLE
+   ========================================================= */
+.table-scroll-wrap {
+  overflow-x: auto; /* lets the table scroll sideways on small screens */
+  padding: 0;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px; /* forces horizontal scroll instead of squashing columns */
+}
+
+.price-table th,
+.price-table td {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.price-table th {
+  color: var(--color-text-muted);
+  font-weight: 700;
+  background: var(--color-bg);
+}
+
+.price-table tr:last-child td {
+  border-bottom: none;
+}
+
+.calc-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* =========================================================
+   SECTION 8: PAID VEHICLE BOOKING
+   ========================================================= */
+.vehicle-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.vehicle-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.vehicle-icon {
+  font-size: 32px;
+}
+
+.vehicle-name {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.vehicle-rating {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.vehicle-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* =========================================================
+   SECTION 9: VEHICLE TRACKING
+   ========================================================= */
+.tracking-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tracking-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.map-placeholder {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-green-pale),
+    var(--color-green-pale) 10px,
+    var(--color-bg) 10px,
+    var(--color-bg) 20px
+  );
+  border: 2px dashed var(--color-border);
+  border-radius: 12px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-green-dark);
+  font-size: 14px;
+  padding: var(--space-sm);
+}
+
+.timeline-horizontal {
+  display: flex;
+  overflow-x: auto;
+  gap: var(--space-md);
+  padding-bottom: 4px;
+}
+
+.timeline-h-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 84px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.timeline-h-step .timeline-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: block;
+}
+
+.timeline-h-step.is-done .timeline-dot {
+  background: var(--color-green);
+}
+
+.timeline-h-step.is-active .timeline-dot {
+  background: var(--color-warning);
+  box-shadow: 0 0 0 4px var(--color-warning-bg);
+}
+
+.timeline-h-step.is-done,
+.timeline-h-step.is-active {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* =========================================================
+   SECTION 10: PROCUREMENT LIFECYCLE (VERTICAL TIMELINE)
+   ========================================================= */
+.timeline-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-v-step {
+  display: flex;
+  gap: var(--space-md);
+  padding-bottom: var(--space-lg);
+  position: relative;
+}
+
+.timeline-v-step::before {
+  /* connecting line between steps */
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 20px;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.timeline-v-step:last-child::before {
+  display: none;
+}
+
+.timeline-v-step .timeline-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-border);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.timeline-v-step.is-done .timeline-dot {
+  background: var(--color-green);
+}
+
+.timeline-v-step.is-active .timeline-dot {
+  background: var(--color-warning);
+  box-shadow: 0 0 0 4px var(--color-warning-bg);
+}
+
+.timeline-v-title {
+  font-weight: 700;
+}
+
+.timeline-v-time {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.quality-note {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-warning);
+  background: var(--color-warning-bg);
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: inline-block;
+}
+
+/* =========================================================
+   SECTION 11: PAYMENT STATUS
+   ========================================================= */
+.payment-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.payment-amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  background: var(--color-green-pale);
+  border-radius: 12px;
+  padding: var(--space-md);
+}
+
+.payment-amount {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-green-dark);
+}
+
+/* =========================================================
+   SECTION 12: SMART NOTIFICATIONS
+   ========================================================= */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.notification-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  border-left: 5px solid var(--color-green);
+}
+
+.notification-icon {
+  font-size: 24px;
+}
+
+.notification-title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.notification-text {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.notification-vehicle { border-left-color: var(--color-info); }
+.notification-procurement { border-left-color: var(--color-warning); }
+.notification-payment { border-left-color: var(--color-green-dark); }
+
+/* =========================================================
+   SECTION 13: PROFILE & ACCESSIBILITY
+   ========================================================= */
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.profile-avatar {
+  font-size: 40px;
+  background: var(--color-green-pale);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-name {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.profile-sub {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.toggle-placeholder {
+  width: 46px;
+  height: 26px;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  display: flex;
+}
+
+.toggle-knob {
+  width: 20px;
+  height: 20px;
+  background: var(--color-surface);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sync-card {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  background: var(--color-bg);
+  border-radius: 10px;
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* =========================================================
+   SECTION 14 & 15: OFFICER SCREENS (DESKTOP-FRIENDLY)
+   ========================================================= */
+.officer-screen {
+  max-width: 900px; /* wider layout for desk-based officer use */
+}
+
+.officer-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.officer-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.officer-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-green-dark);
+}
+
+.congestion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* =========================================================
+   BOTTOM NAVIGATION (FARMER SCREENS, MOBILE)
+   ========================================================= */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 10;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 4px 6px;
+  min-width: 56px;
+}
+
+.bottom-nav-item span:first-child {
+  font-size: 20px;
+}
+
+/* ---------- 7. RESPONSIVE / DESKTOP LAYOUT ---------- */
+@media (min-width: 640px) {
+  .screen {
+    max-width: 640px;
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .welcome-inner {
+    max-width: 480px;
+  }
+
+  .officer-screen {
+    max-width: 920px;
+  }
+
+  .officer-stat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .vehicle-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+}
+
+@media (min-width: 900px) {
+  .officer-stat-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .officer-screen .table-scroll-wrap {
+    overflow-x: visible;
+  }
+}
+
+/* ---------- 8. ACCESSIBILITY HELPERS ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}
