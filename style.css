@@ -185,7 +185,7 @@ hr.divider {
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.03em;
-  transform: rotate(-2deg);
+
   box-shadow: 0 0 0 2px var(--paper-dark), 0 0 0 3px currentColor;
 }
 
@@ -412,7 +412,7 @@ hr.divider {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  transform: rotate(-0.5deg);
+
 }
 
 .token-details { display: flex; flex-direction: column; gap: 8px; }
@@ -524,8 +524,7 @@ hr.divider {
 .vehicle-list { display: flex; flex-direction: column; gap: var(--space-md); }
 
 .vehicle-card { display: flex; flex-direction: column; gap: var(--space-sm); }
-.vehicle-card:nth-child(odd)  { transform: rotate(-0.4deg); }
-.vehicle-card:nth-child(even) { transform: rotate(0.4deg); }
+
 
 .vehicle-head { display: flex; align-items: center; gap: var(--space-sm); }
 .vehicle-icon { font-size: 30px; }
@@ -695,7 +694,7 @@ hr.divider {
 .notification-dismiss:hover { color: var(--ink); }
 .notification-card.is-dismissed {
   opacity: 0;
-  transform: translateX(16px);
+
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
