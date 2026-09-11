@@ -1,0 +1,55 @@
+/* ==========================================================================
+   FasalRaah – Farmer Vehicle Booking wizard
+   Uses only existing design tokens from style.css (--wheat, --ink, etc.)
+   No new colors, no gradients, no glassmorphism — matches ledger-paper look.
+   ========================================================================== */
+
+#booking-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-bottom: var(--space-md);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 12px;
+}
+
+.booking-step-dot {
+  color: var(--ink-faint);
+  font-weight: 600;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+
+.booking-step-dot.is-done {
+  color: var(--wheat-deep);
+  border-bottom-color: var(--wheat-deep);
+}
+
+.booking-step-dot.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--stamp-red);
+}
+
+.booking-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.booking-nav-buttons .btn {
+  width: auto;
+  flex: 1;
+  margin-top: 0;
+}
+
+#booking-entry {
+  text-align: center;
+  padding: var(--space-sm) 0;
+}
+
+#booking-entry .btn {
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}

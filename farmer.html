@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FasalRaah – Farmer Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="accessibility.css" />
+<link rel="stylesheet" href="booking.css" /> 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div style="max-width: 480px; margin: 0 auto; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--rule);">
+  <div style="font-weight: 700; font-size: 20px; font-family: 'Rajdhani', sans-serif;">🌾 FasalRaah Farmer</div>
+
+  <a href="index.html" class="btn btn-primary btn-small" style="width: auto; z-index: 1000;" data-i18n="nav_logout">Log Out</a>
+</div>
+
+<!-- SECTION: FARMER HOME DASHBOARD -->
+<section id="dashboard" class="screen">
+  <div class="greeting-row">
+    <div>
+      <p class="greeting-text" data-i18n="dash_greeting">Good morning,</p>
+      <h2 class="greeting-name">Gurpreet 🙏</h2>
+    </div>
+    <span class="sync-pill" data-i18n="dash_sync">🔄 Live synced with Supabase</span>
+  </div>
+
+  <div class="card summary-card">
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="summary-label" data-i18n="label_procurement_centre">Procurement Centre</span>
+        <span class="summary-value">Khanna Main Grain Market</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label" data-i18n="label_assigned_gate">Assigned Gate</span>
+        <span class="summary-value" data-i18n="value_gate_2">Gate 2</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label" data-i18n="label_token_id">Token ID</span>
+        <span class="summary-value token-value">PB-KHN-099</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label" data-i18n="label_crop">Crop</span>
+        <span class="summary-value" data-i18n="value_crop_paddy">🌾 Paddy (Common)</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label" data-i18n="label_quantity">Quantity</span>
+        <span class="summary-value" data-i18n="value_quantity_20">20 quintals</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label" data-i18n="label_schedule_slot">Schedule Slot</span>
+        <span class="summary-value" data-i18n="value_schedule">Today, 10:00 AM–12:00 PM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-stats-row">
+    <div class="card stat-card">
+      <span class="stat-label" data-i18n="label_recommended_arrival">Recommended arrival</span>
+      <span class="stat-value">09:40 AM</span>
+    </div>
+    <div class="card stat-card">
+      <span class="stat-label" data-i18n="label_crowd_level">Crowd level</span>
+      <span class="status-badge badge-moderate" data-i18n="badge_moderate">Moderate</span>
+    </div>
+    <div class="card stat-card">
+      <span class="stat-label" data-i18n="label_estimated_wait">Estimated wait</span>
+      <span class="stat-value" data-i18n="value_wait_45mins">45 mins</span>
+    </div>
+  </div>
+
+  <div class="card price-strip">
+    <span data-i18n="label_msp_paddy">Official GOI MSP for Paddy</span>
+    <strong data-i18n="value_msp_price">₹2,300 / quintal</strong>
+  </div>
+</section>
+
+<!-- SECTION: "SHOULD I GO NOW?" -->
+<section id="go-now" class="screen">
+  <h2 class="section-title" data-i18n="title_go_now">
+    Should I Go Now?
+    <button type="button" class="speak-btn" data-speak-target="go-now" aria-label="Read this section aloud">🔊</button>
+  </h2>
+  <div class="card go-now-card">
+    <span class="demo-label demo-label-light" data-i18n="demo_label_telemetry">Smart Mandi Telemetry Advisory</span>
+    <p class="go-now-main" data-i18n="go_now_main">Leave at 09:15 AM</p>
+
+    <div class="go-now-grid">
+      <div class="go-now-item">
+        <span class="go-now-label" data-i18n="label_expected_arrival">Expected arrival</span>
+        <span class="go-now-value">09:40 AM</span>
+      </div>
+      <div class="go-now-item">
+        <span class="go-now-label" data-i18n="label_weighbridge_slot">Weighbridge slot</span>
+        <span class="go-now-value">10:00 AM</span>
+      </div>
+      <div class="go-now-item">
+        <span class="go-now-label" data-i18n="label_crowd_level">Crowd level</span>
+        <span class="status-badge badge-medium" data-i18n="badge_moderate">Moderate</span>
+      </div>
+    </div>
+
+    <p class="go-now-explain" data-i18n="go_now_explain">
+      Based on 18 farmers ahead of token PB-KHN-099 and a 25-minute travel time from Daudpur Village, leaving at 09:15 AM gets you to Gate 2 right on schedule without yard idling.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION: DIGITAL TOKEN PASS -->
+<section id="schedule" class="screen">
+  <h2 class="section-title" data-i18n="title_token_pass">Procurement Token Pass</h2>
+  <div class="card token-card">
+    <div class="token-details">
+      <div class="token-row"><span data-i18n="label_centre">Centre</span><strong>Khanna Main Grain Market</strong></div>
+      <div class="token-row"><span data-i18n="label_slot">Slot</span><strong data-i18n="value_schedule">Today, 10:00 AM – 12:00 PM</strong></div>
+      <div class="token-row"><span data-i18n="label_gate">Gate</span><strong data-i18n="value_gate_2">Gate 2</strong></div>
+      <div class="token-row"><span data-i18n="label_token">Token</span><strong class="token-value">PB-KHN-099</strong></div>
+      <div class="token-row"><span data-i18n="label_crop">Crop</span><strong data-i18n="value_crop_paddy_full">Paddy (Common, PR-126)</strong></div>
+      <div class="token-row"><span data-i18n="label_quantity">Quantity</span><strong data-i18n="value_quantity_20">20 quintals</strong></div>
+    </div>
+    <div class="qr-placeholder" role="img" aria-label="Digital Mandi Entry QR">
+      <div class="qr-box">
+        <span>▦</span><span>▦</span>
+        <span>▦</span><span>▦</span>
+      </div>
+      <span class="qr-caption" data-i18n="qr_caption">Scan at Gate 2 Weighbridge</span>
+    </div>
+    <button type="button" id="book-slot-btn" class="btn btn-primary btn-small" data-i18n="btn_book_slot" style="width:100%; margin-top: 14px;">
+      Book Slot
+    </button>
+    <p id="slot-status" class="qr-caption" style="margin-top: 8px; display:none;" data-i18n="slot_booked_status">✅ Slot booked for Gate 2, 10:00 AM</p>
+  </div>
+</section>
+
+<!-- SECTION: LIVE QUEUE -->
+<section id="queue" class="screen">
+  <h2 class="section-title" data-i18n="title_queue">
+    Live Gate 2 Queue
+    <button type="button" class="speak-btn" data-speak-target="queue" aria-label="Read this section aloud">🔊</button>
+  </h2>
+
+  <div class="card queue-card">
+    <div class="queue-top-row">
+      <div class="queue-token-box">
+        <span class="queue-token-label" data-i18n="label_currently_serving">Currently serving</span>
+        <span class="queue-token-amount">PB-KHN-081</span>
+      </div>
+      <div class="queue-token-box queue-token-box-you">
+        <span class="queue-token-label" data-i18n="label_your_token">Your token</span>
+        <span class="queue-token-amount">PB-KHN-099</span>
+      </div>
+    </div>
+
+    <div class="queue-progress-wrap">
+      <div class="queue-progress-track">
+        <div class="queue-progress-fill" style="width: 65%;"></div>
+      </div>
+      <p class="queue-progress-caption" data-i18n="queue_caption">18 farmers ahead of you</p>
+    </div>
+
+    <div class="queue-meta-grid">
+      <div class="queue-meta-item">
+        <span class="queue-meta-label" data-i18n="label_estimated_wait">Estimated wait</span>
+        <span class="queue-meta-value" data-i18n="value_wait_45minutes">45 minutes</span>
+      </div>
+      <div class="queue-meta-item">
+        <span class="queue-meta-label" data-i18n="label_processing_rate">Processing rate</span>
+        <span class="queue-meta-value" data-i18n="value_processing_rate">2.5 mins / trolley</span>
+      </div>
+      <div class="queue-meta-item">
+        <span class="queue-meta-label" data-i18n="label_gate_status">Gate status</span>
+        <span class="status-badge badge-open" data-i18n="badge_open">Open</span>
+      </div>
+      <div class="queue-meta-item">
+        <span class="queue-meta-label" data-i18n="label_crowd_level">Crowd level</span>
+        <span class="status-badge badge-moderate" data-i18n="badge_moderate">Moderate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: MSP & CALCULATOR -->
+<section id="prices" class="screen">
+  <h2 class="section-title" data-i18n="title_msp_calc">Official MSP &amp; Calculator</h2>
+
+  <div class="card calc-card">
+    <h3 class="section-title small" style="margin-top: 0;" data-i18n="subtitle_msp_calc">MSP Payout Calculator</h3>
+    <div class="calc-row">
+      <label class="field-label" for="calc-qty" data-i18n="label_qty_quintals">Quantity (quintals)</label>
+      <input class="field-input" type="number" id="calc-qty" value="20" min="1" />
+    </div>
+    <div class="calc-row" style="margin-top: 10px;">
+      <span data-i18n="label_estimated_value">Estimated Value at MSP (₹2,300/q)</span>
+      <strong id="calc-value" style="font-size: 22px; color: var(--wheat-deep);">₹46,000</strong>
+    </div>
+  </div>
+</section>
+
+<!-- Transport Booking -->
+<section id="booking" class="screen">
+  <h2 class="section-title" data-i18n="title_booking">Book Vehicle</h2>
+  <p class="section-subtitle" data-i18n="subtitle_booking">Get a vehicle to carry your crop to a procurement centre</p>
+
+  <div id="booking-entry">
+    <button type="button" id="start-booking-btn" class="btn btn-primary btn-large">Book Vehicle</button>
+  </div>
+
+  <div id="booking-steps" hidden>
+    <div class="booking-progress" id="booking-progress"></div>
+    <div id="booking-step-content"></div>
+    <div class="booking-nav-buttons">
+      <button type="button" id="booking-back-btn" class="btn btn-secondary btn-small">Back</button>
+      <button type="button" id="booking-next-btn" class="btn btn-primary btn-small">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: MY BOOKINGS -->
+<section id="tracking" class="screen">
+  <h2 class="section-title" data-i18n="title_tracking">My Bookings</h2>
+  <div id="my-bookings-list">
+    <p class="section-subtitle">Loading your bookings…</p>
+  </div>
+</section>
+
+<!-- SECTION: PAYMENT STATUS -->
+<section id="payment" class="screen">
+  <h2 class="section-title" data-i18n="title_payment">DBT Payout Status</h2>
+
+  <div class="card payment-card">
+    <div class="payment-amount-row">
+      <span class="summary-label" data-i18n="label_total_payable">Total Payable</span>
+      <span class="payment-amount">₹46,000</span>
+      <span class="status-badge badge-progress" data-i18n="badge_processing">Processing</span>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-item"><span class="summary-label" data-i18n="label_weighed_quantity">Weighed Quantity</span><span class="summary-value" data-i18n="value_quantity_20">20 quintals</span></div>
+      <div class="summary-item"><span class="summary-label" data-i18n="label_rate">Rate</span><span class="summary-value" data-i18n="value_msp_price">₹2,300 / quintal</span></div>
+      <div class="summary-item"><span class="summary-label" data-i18n="label_bank_account">Bank Account</span><span class="summary-value">SBI •••• 7412</span></div>
+      <div class="summary-item"><span class="summary-label" data-i18n="label_reference">Reference</span><span class="summary-value">PFMS-DBT-992147</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: PROFILE -->
+<section id="profile" class="screen" style="margin-bottom: 80px;">
+  <h2 class="section-title" data-i18n="title_profile">Farmer Profile</h2>
+  <div class="card">
+    <div class="profile-head">
+      <div class="profile-avatar">🧑‍🌾</div>
+      <div>
+        <p class="profile-name">Gurpreet Singh</p>
+        <p class="profile-sub" data-i18n="profile_sub">Daudpur Village, Ludhiana • Paddy Producer</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<img src="logo.jpeg"
+        alt="logo"
+        class="hero-image"
+        style="opacity: 8%; position: absolute;top: 0 ;left: 0; width: 100%;"
+        >
+<!-- SECTION 13: PROFILE & ACCESSIBILITY -->
+
+<section id="settings" class="screen">
+    <label class="field-label" for="language-select" data-i18n="label_language">Language</label>
+    <select class="field-input" id="language-select">
+      <option value="en">English</option>
+      <option value="hi">हिंदी (Hindi)</option>
+      <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+    </select>
+
+    <div class="toggle-row">
+      <span data-i18n="toggle_large_text">Large text</span>
+      <div class="toggle-placeholder" id="toggle-large-text" role="switch" aria-checked="false" tabindex="0"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <span data-i18n="toggle_high_contrast">High contrast</span>
+      <div class="toggle-placeholder" id="toggle-high-contrast" role="switch" aria-checked="false" tabindex="0"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <span data-i18n="toggle_read_aloud">Read aloud</span>
+      <button class="btn btn-secondary btn-small" type="button" id="read-aloud-btn" data-i18n="btn_read_screen">🔊 Read this screen</button>
+    </div>
+
+    <div class="sync-card">
+      <span data-i18n="label_low_connectivity">📶 Low connectivity mode</span>
+      <span class="sync-pill" data-i18n="sync_caption">Last synced: 9:42 AM · Available offline</span>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <a href="#dashboard" class="bottom-nav-item active"><span><img src="home.png" alt="home"></span><span data-i18n="nav_home">Home</span></a>
+  <a href="#go-now" class="bottom-nav-item"><span><img src="gonow.png" alt="home"></span><span data-i18n="nav_go_now">Go Now?</span></a>
+  <a href="#queue" class="bottom-nav-item"><span><img src="queue.png" alt="home"></span><span data-i18n="nav_queue">Queue</span></a>
+  <a href="#tracking" class="bottom-nav-item"><span><img src="transport.png" alt="home"></span><span data-i18n="nav_transport">Transport</span></a>
+  <a href="#payment" class="bottom-nav-item"><span><img src="payment.png" alt="home"></span><span data-i18n="nav_payment">Payment</span></a>
+</nav>
+
+
+
+        
+<div id="toast-container"></div>
+
+<!-- Floating voice-command mic -->
+<button type="button" id="voice-cmd-btn" class="voice-cmd-btn" aria-label="Voice command" data-i18n-aria="voice_cmd_aria">
+  🎤
+</button>
+<div id="voice-cmd-status" class="voice-cmd-status" hidden></div>
+
+<script src="script.js"></script>
+<script src="booking.js"></script>   <!-- ADD THIS LINE -->
+
+</body>
+</html>

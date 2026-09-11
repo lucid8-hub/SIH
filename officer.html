@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FasalRaah – Mandi Officer Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="background: #e9e4d4;">
+
+<!-- OFFICER TOP BAR -->
+<div style="max-width: 920px; margin: 0 auto; padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--ink);">
+  <div>
+    <span style="font-size: 13px; font-weight: 700; color: var(--stamp-red); letter-spacing: 0.05em;">APMC CONTROL ROOM • KHANNA MANDI</span>
+    <h1 style="font-size: 26px; margin: 0;">Officer: Harbhajan Singh</h1>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <a href="farmer.html" class="btn btn-secondary btn-small" style="width: auto;">View Farmer App</a>
+    <a href="index.html" class="btn btn-primary btn-small" style="width: auto;">Log Out</a>
+  </div>
+</div>
+
+<div class="officer-screen" style="margin: 20px auto; padding: 0 16px;">
+
+  <!-- METRICS SUMMARY CARDS -->
+  <div class="officer-stat-grid">
+    <div class="card officer-stat-card">
+      <span class="summary-label">Booked Slots</span>
+      <span class="officer-stat-value">186</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Trolleys in Yard</span>
+      <span class="officer-stat-value">94</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Weighed & Cleared</span>
+      <span class="officer-stat-value">70</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Active Gate 2 Queue</span>
+      <span class="officer-stat-value" style="color: #ff9800;">18</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Yard Capacity</span>
+      <span class="officer-stat-value">78%</span>
+    </div>
+    <div class="card officer-stat-card">
+      <span class="summary-label">Inbound Vehicles</span>
+      <span class="officer-stat-value">9</span>
+    </div>
+  </div>
+
+  <!-- CONGESTION ADVISORY -->
+  <div class="card congestion-card">
+    <span class="summary-label">Automated Gate Flow Telemetry</span>
+    <span class="status-badge badge-moderate">Gate 2 Flow: Moderate (18 Trolleys in Line • 2.5 min avg/weighbridge)</span>
+  </div>
+
+  <!-- LIVE WEIGHBRIDGE QUEUE TABLE (SUPABASE FEED) -->
+  <div class="card" style="margin-top: 20px;">
+    <h2 class="section-title">Live Gate 2 Queue Telemetry (Supabase Cloud Feed)</h2>
+    <div class="table-scroll-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Token ID</th>
+            <th>Farmer Name</th>
+            <th>Crop</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Slot</th>
+          </tr>
+        </thead>
+        <tbody id="queue-telemetry-body">
+          <tr><td colspan="6" class="section-subtitle">Loading live data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GATE & STATION CONTROLS -->
+  <div class="card" style="margin-top: 20px;">
+    <h2 class="section-title">Gate &amp; Weighbridge Station Controls</h2>
+    <div class="officer-stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 10px;">
+      <div class="card officer-stat-card" style="text-align: center;">
+        <span class="summary-label">Gate 1</span>
+        <span class="status-badge badge-open" style="margin-top: 6px;">Open</span>
+      </div>
+      <div class="card officer-stat-card" style="text-align: center;">
+        <span class="summary-label">Gate 2</span>
+        <span class="status-badge badge-moderate" style="margin-top: 6px;">Busy (18 In Line)</span>
+      </div>
+      <div class="card officer-stat-card" style="text-align: center;">
+        <span class="summary-label">Weighbridge A</span>
+        <span class="status-badge badge-open" style="margin-top: 6px;">Active</span>
+      </div>
+      <div class="card officer-stat-card" style="text-align: center;">
+        <span class="summary-label">Weighbridge B</span>
+        <span class="status-badge badge-open" style="margin-top: 6px;">Active</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INBOUND TRANSPORT FLEET (SUPABASE FEED) -->
+  <div class="card" style="margin-top: 20px;">
+    <h2 class="section-title">Inbound Logistics Tracking (Supabase Cloud Feed)</h2>
+    <div class="table-scroll-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Vehicle No.</th>
+            <th>Type</th>
+            <th>Driver</th>
+            <th>Pickup Location</th>
+            <th>ETA</th>
+            <th>Trip Status</th>
+          </tr>
+        </thead>
+        <tbody id="fleet-telemetry-body">
+          <tr><td colspan="6" class="section-subtitle">Loading live data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       ADMIN / MANAGE DATA
+       ====================================================== -->
+  <div style="margin-top: 32px;">
+    <h2 class="section-title" style="font-size: 26px;">Admin / Manage Data</h2>
+    <p class="section-subtitle">Live data entry — every change here is saved to Supabase and reflected on the farmer app.</p>
+
+    <div class="officer-stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 16px;">
+      <div class="card admin-nav-card is-active" data-target="panel-add-crop" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">🌾</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Add Crop</span>
+      </div>
+      <div class="card admin-nav-card" data-target="panel-add-centre" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">🏢</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Add Procurement Centre</span>
+      </div>
+      <div class="card admin-nav-card" data-target="panel-queue" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">⏱️</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Update Queue Status</span>
+      </div>
+      <div class="card admin-nav-card" data-target="panel-add-vehicle" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">🚚</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Add Vehicle</span>
+      </div>
+      <div class="card admin-nav-card" data-target="panel-manage-booking" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">📦</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Manage Vehicle Booking</span>
+      </div>
+      <div class="card admin-nav-card" data-target="panel-procurement-status" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">📋</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Update Procurement Status</span>
+      </div>
+      <div class="card admin-nav-card" data-target="panel-payment-status" style="cursor:pointer; text-align:center;">
+        <span style="font-size:22px;">💰</span>
+        <span class="summary-label" style="display:block; margin-top:6px;">Update Payment Status</span>
+      </div>
+    </div>
+
+    <!-- PANEL: ADD CROP -->
+    <div id="panel-add-crop" class="admin-panel card" style="margin-top:20px; display:block;">
+      <h3 class="section-title small">Add Crop</h3>
+      <form id="add-crop-form" class="stack-form">
+        <label class="field-label" for="crop-name">Crop Name</label>
+        <input class="field-input" id="crop-name" type="text" placeholder="e.g. Paddy" required />
+
+        <label class="field-label" for="crop-season">Season</label>
+        <select class="field-input" id="crop-season" required>
+          <option value="">Select season…</option>
+          <option value="Kharif">Kharif</option>
+          <option value="Rabi">Rabi</option>
+          <option value="Zaid">Zaid</option>
+        </select>
+
+        <label class="field-label" for="crop-msp">MSP / Price per Quintal (₹)</label>
+        <input class="field-input" id="crop-msp" type="number" min="0" step="1" placeholder="e.g. 2441" required />
+
+        <div class="toggle-row" style="border-bottom:none;">
+          <span>Available / Active</span>
+          <input type="checkbox" id="crop-active" checked style="width:20px; height:20px;" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Crop</button>
+      </form>
+      <hr class="divider" />
+      <h3 class="section-title small">Existing Crops</h3>
+      <div id="crop-list"><p class="section-subtitle">Loading…</p></div>
+    </div>
+
+    <!-- PANEL: ADD CENTRE -->
+    <div id="panel-add-centre" class="admin-panel card" style="margin-top:20px; display:none;">
+      <h3 class="section-title small">Add Procurement Centre</h3>
+      <form id="add-centre-form" class="stack-form">
+        <label class="field-label" for="centre-name">Centre Name</label>
+        <input class="field-input" id="centre-name" type="text" placeholder="e.g. Ludhiana Procurement Centre" required />
+
+        <label class="field-label" for="centre-district">District</label>
+        <input class="field-input" id="centre-district" type="text" placeholder="e.g. Ludhiana" required />
+
+        <label class="field-label" for="centre-state">State</label>
+        <input class="field-input" id="centre-state" type="text" value="Punjab" />
+
+        <label class="field-label" for="centre-address">Address</label>
+        <input class="field-input" id="centre-address" type="text" placeholder="Full address" />
+
+        <label class="field-label" for="centre-lat">Latitude</label>
+        <input class="field-input" id="centre-lat" type="number" step="any" placeholder="e.g. 30.9010" />
+
+        <label class="field-label" for="centre-lng">Longitude</label>
+        <input class="field-input" id="centre-lng" type="number" step="any" placeholder="e.g. 75.8573" />
+
+        <label class="field-label" for="centre-open">Opening Time</label>
+        <input class="field-input" id="centre-open" type="time" />
+
+        <label class="field-label" for="centre-close">Closing Time</label>
+        <input class="field-input" id="centre-close" type="time" />
+
+        <label class="field-label" for="centre-status">Status</label>
+        <select class="field-input" id="centre-status">
+          <option value="Open">Open</option>
+          <option value="Closed">Closed</option>
+          <option value="Full">Full</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Add Procurement Centre</button>
+      </form>
+      <hr class="divider" />
+      <h3 class="section-title small">Existing Centres</h3>
+      <div id="centre-list"><p class="section-subtitle">Loading…</p></div>
+    </div>
+
+    <!-- PANEL: UPDATE QUEUE STATUS -->
+    <div id="panel-queue" class="admin-panel card" style="margin-top:20px; display:none;">
+      <h3 class="section-title small">Update Queue Status</h3>
+      <form id="update-queue-form" class="stack-form">
+        <label class="field-label" for="queue-centre-select">Select Procurement Centre</label>
+        <select class="field-input centre-select" id="queue-centre-select" required></select>
+
+        <label class="field-label" for="queue-current">Current Queue</label>
+        <input class="field-input" id="queue-current" type="number" min="0" placeholder="e.g. 18" required />
+
+        <label class="field-label" for="queue-avg-service">Average Service Time per Farmer (minutes)</label>
+        <input class="field-input" id="queue-avg-service" type="number" min="0" step="0.1" placeholder="e.g. 2.5" required />
+
+        <button type="submit" class="btn btn-primary">Update Queue</button>
+      </form>
+      <div id="queue-result" class="card" style="margin-top:16px; display:none;"></div>
+    </div>
+
+    <!-- PANEL: ADD VEHICLE -->
+    <div id="panel-add-vehicle" class="admin-panel card" style="margin-top:20px; display:none;">
+      <h3 class="section-title small">Add Vehicle</h3>
+      <form id="add-vehicle-form" class="stack-form">
+        <label class="field-label" for="vehicle-number">Vehicle Number</label>
+        <input class="field-input" id="vehicle-number" type="text" placeholder="e.g. PB 10 ER 4120" required />
+
+        <label class="field-label" for="vehicle-type">Vehicle Type</label>
+        <input class="field-input" id="vehicle-type" type="text" placeholder="e.g. Tractor Trolley" required />
+
+        <label class="field-label" for="vehicle-capacity">Capacity (quintals)</label>
+        <input class="field-input" id="vehicle-capacity" type="number" min="0" placeholder="e.g. 60" required />
+
+        <label class="field-label" for="vehicle-driver">Driver Name</label>
+        <input class="field-input" id="vehicle-driver" type="text" placeholder="e.g. Suresh Singh" required />
+
+        <label class="field-label" for="vehicle-contact">Driver Contact</label>
+        <input class="field-input" id="vehicle-contact" type="tel" placeholder="10-digit mobile number" />
+
+        <label class="field-label" for="vehicle-availability">Availability Status</label>
+        <select class="field-input" id="vehicle-availability">
+          <option value="true">Available</option>
+          <option value="false">Unavailable</option>
+        </select>
+
+        <label class="field-label" for="vehicle-fare">Base Fare (₹)</label>
+        <input class="field-input" id="vehicle-fare" type="number" min="0" placeholder="e.g. 850" />
+
+        <button type="submit" class="btn btn-primary">Add Vehicle</button>
+      </form>
+      <hr class="divider" />
+      <h3 class="section-title small">Existing Vehicles</h3>
+      <div id="vehicle-list-admin"><p class="section-subtitle">Loading…</p></div>
+    </div>
+
+    <!-- PANEL: MANAGE VEHICLE BOOKING -->
+    <div id="panel-manage-booking" class="admin-panel card" style="margin-top:20px; display:none;">
+      <h3 class="section-title small">Manage Vehicle Bookings</h3>
+      <p class="section-subtitle">Move each booking through its real trip stages. The farmer's tracking page reflects this instantly on refresh.</p>
+      <div id="booking-admin-list"><p class="section-subtitle">Loading…</p></div>
+    </div>
+
+    <!-- PANEL: PROCUREMENT STATUS -->
+    <div id="panel-procurement-status" class="admin-panel card" style="margin-top:20px; display:none;">
+      <h3 class="section-title small">Update Procurement Status</h3>
+      <p class="section-subtitle">Move each farmer's token through the procurement lifecycle.</p>
+      <div id="procurement-admin-list"><p class="section-subtitle">Loading…</p></div>
+    </div>
+
+    <!-- PANEL: PAYMENT STATUS -->
+    <div id="panel-payment-status" class="admin-panel card" style="margin-top:20px; margin-bottom:60px; display:none;">
+      <h3 class="section-title small">Update Payment Status</h3>
+      <p class="section-subtitle">Update DBT payout status. The farmer's Payment tab reflects this on refresh.</p>
+      <div id="payment-admin-list"><p class="section-subtitle">Loading…</p></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="admin-toast-container"></div>
+
+<style>
+  .admin-nav-card.is-active { border-color: var(--ink); background: var(--wheat-pale); }
+  #admin-toast-container {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+    display: flex; flex-direction: column; gap: 8px; z-index: 50;
+    width: calc(100% - 32px); max-width: 420px; pointer-events: none;
+  }
+  #admin-toast-container .toast {
+    background: var(--slate-deep); color: var(--paper); padding: 12px 16px;
+    border-radius: var(--radius-stub); font-size: 14px; font-weight: 600;
+    box-shadow: var(--shadow-ink); text-align: center; font-family: "Rajdhani", sans-serif;
+  }
+</style>
+
+<script src="admin.js"></script>
+</body>
+</html>

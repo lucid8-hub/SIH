@@ -1,0 +1,182 @@
+/* ============================================================================
+   FasalRaah - Farmer Live Queue (queue_status realtime)
+   Self-contained module. Does not touch script.js, booking.js, or the
+   Officer page. Fixes the #queue section to read from the real
+   "queue_status" table (current_queue, avg_service_minutes, centre_id)
+   instead of the old token-number math, and keeps it live via Realtime.
+   ============================================================================ */
+
+(function () {
+  "use strict";
+
+  const SUPABASE_URL = "https://kendqopvsmwuihvvjrte.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Dtdfdl0ZWFnHLg4rtht7nw_rhQzt376";
+
+  // Same hardcoded demo identity used by script.js and booking.js —
+  // there is no real login session yet.
+  const DEMO_MOBILE_NUMBER = "9876543210";
+
+  const $ = (sel) => document.querySelector(sel);
+
+  // ---- Plain REST helper (same pattern as script.js) ---------------------
+  async function sbGet(table, query) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      }
+    });
+    if (!res.ok) {
+      throw new Error(`GET ${table} failed (${res.status}): ${await res.text()}`);
+    }
+    return res.json();
+  }
+
+  // ---- Crowd level thresholds ---------------------------------------------
+  function crowdLevel(queue) {
+    if (queue <= 10) return { label: "Low", cls: "badge-open" };
+    if (queue <= 25) return { label: "Moderate", cls: "badge-moderate" };
+    if (queue <= 50) return { label: "High", cls: "badge-progress" };
+    return { label: "Very High", cls: "badge-alert" };
+  }
+
+  // ---- Live indicator ------------------------------------------------------
+  function setLiveState(state) {
+    // state: "live" | "unavailable" | "connecting"
+    const el = $("#queue-live-indicator");
+    if (!el) return;
+    el.classList.remove("sync-pill");
+    if (state === "live") {
+      el.textContent = "● Live Queue";
+      el.style.color = "var(--wheat-deep)";
+    } else if (state === "connecting") {
+      el.textContent = "● Connecting…";
+      el.style.color = "var(--ink-soft)";
+    } else {
+      el.textContent = "Live updates unavailable — showing latest data";
+      el.style.color = "var(--stamp-red)";
+    }
+  }
+
+  // ---- Render a queue_status row into the existing #queue markup ---------
+  function renderQueueRow(row) {
+    if (!row) return;
+    const queue = Number(row.current_queue) || 0;
+    const rate = Number(row.avg_service_minutes) || 0;
+    const waitMinutes = Math.round(queue * rate);
+    const crowd = crowdLevel(queue);
+
+    const countEl = $("#queue-current-count");
+    if (countEl) countEl.textContent = `Current Queue: ${queue} farmers`;
+
+    const waitEl = $("#queue-wait-value");
+    if (waitEl) waitEl.textContent = `${waitMinutes} minutes`;
+
+    const rateEl = $("#queue-service-rate");
+    if (rateEl) rateEl.textContent = `${rate} mins / farmer`;
+
+    const badgeEl = $("#queue-crowd-badge");
+    if (badgeEl) {
+      badgeEl.textContent = crowd.label;
+      badgeEl.className = `status-badge ${crowd.cls}`;
+    }
+
+    const fillEl = $("#queue-progress-fill");
+    if (fillEl) {
+      const pct = Math.min(100, Math.round((queue / 50) * 100));
+      fillEl.style.width = pct + "%";
+    }
+
+    // Also mirror onto the dashboard's top "Estimated wait" stat, if present
+    const dashWait = $("#dash-estimated-wait");
+    if (dashWait) dashWait.textContent = `${waitMinutes} mins`;
+  }
+
+  // ---- State ----------------------------------------------------------------
+  let farmerId = null;
+  let centreId = null;
+  let channel = null;
+  let supabaseClient = null;
+
+  async function loadFarmerCentre() {
+    const profiles = await sbGet("profiles", `mobile_number=eq.${DEMO_MOBILE_NUMBER}&select=id`);
+    if (!profiles || !profiles[0]) throw new Error("No profile found for demo farmer.");
+    farmerId = profiles[0].id;
+
+    const tokens = await sbGet(
+      "procurement_tokens",
+      `farmer_id=eq.${farmerId}&select=centre_id&order=created_at.desc&limit=1`
+    );
+    if (!tokens || !tokens[0]) throw new Error("Farmer has no procurement_tokens yet — nothing to track.");
+    centreId = tokens[0].centre_id;
+  }
+
+  async function fetchInitialQueue() {
+    const rows = await sbGet("queue_status", `centre_id=eq.${centreId}&select=*&limit=1`);
+    if (rows && rows[0]) renderQueueRow(rows[0]);
+  }
+
+  function subscribeRealtime() {
+    if (!window.supabase || typeof window.supabase.createClient !== "function") {
+      console.error("[FasalRaah] supabase-js client library not loaded — cannot subscribe to Realtime.");
+      setLiveState("unavailable");
+      return;
+    }
+
+    if (!supabaseClient) {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
+    // Avoid duplicate subscriptions if this ever gets called more than once
+    if (channel) {
+      supabaseClient.removeChannel(channel);
+      channel = null;
+    }
+
+    setLiveState("connecting");
+
+    channel = supabaseClient
+      .channel(`queue-status-centre-${centreId}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "queue_status", filter: `centre_id=eq.${centreId}` },
+        (payload) => {
+          if (payload.eventType === "DELETE") {
+            // Row for this centre was removed — refetch to reflect reality
+            fetchInitialQueue().catch((err) => console.error("[FasalRaah] Queue refetch after DELETE failed:", err));
+            return;
+          }
+          renderQueueRow(payload.new);
+        }
+      )
+      .subscribe((status, err) => {
+        if (status === "SUBSCRIBED") {
+          setLiveState("live");
+        } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+          console.error("[FasalRaah] Realtime queue subscription issue:", status, err || "");
+          setLiveState("unavailable");
+        }
+      });
+  }
+
+  function cleanup() {
+    if (channel && supabaseClient) {
+      supabaseClient.removeChannel(channel);
+      channel = null;
+    }
+  }
+  window.addEventListener("beforeunload", cleanup);
+
+  // ---- Init -------------------------------------------------------------
+  document.addEventListener("DOMContentLoaded", async () => {
+    setLiveState("connecting");
+    try {
+      await loadFarmerCentre();
+      await fetchInitialQueue();
+      subscribeRealtime();
+    } catch (err) {
+      console.error("[FasalRaah] Queue init failed:", err);
+      setLiveState("unavailable");
+    }
+  });
+})();
